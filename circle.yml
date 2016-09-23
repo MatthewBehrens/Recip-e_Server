@@ -1,2 +1,3 @@
-general:
-  build_dir: Recipe-e_Server
+test:
+  post:
+    - bundle exec rake
