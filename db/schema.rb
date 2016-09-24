@@ -21,6 +21,13 @@ ActiveRecord::Schema.define(version: 20160924211118) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "favorite_recipes", force: :cascade do |t|
+    t.integer  "api_recipe_id"
+    t.integer  "user_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
   create_table "ingredients", force: :cascade do |t|
     t.string   "name",            null: false
     t.integer  "kitchen_list_id"
@@ -35,22 +42,13 @@ ActiveRecord::Schema.define(version: 20160924211118) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "recipes", force: :cascade do |t|
-    t.string   "name"
-    t.string   "description"
-    t.integer  "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
   create_table "users", force: :cascade do |t|
-    t.string   "first_name",    null: false
-    t.string   "last_name",     null: false
-    t.string   "email",         null: false
-    t.string   "username",      null: false
-    t.string   "password_hash"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string   "first_name", null: false
+    t.string   "last_name",  null: false
+    t.string   "email",      null: false
+    t.string   "username",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

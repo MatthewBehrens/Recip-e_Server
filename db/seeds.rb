@@ -1,4 +1,4 @@
-User.create(first_name: 'Matt', last_name: 'Baker', email: 'mattbaker@dbc.com', username: 'bakerROX', password_hash: 'password')
+User.create(first_name: 'Matt', last_name: 'Baker', email: 'mattbaker@dbc.com', username: 'bakerROX')
 
 KitchenList.create(user_id: 1)
 
@@ -28,4 +28,4 @@ Ingredient.create(name: 'flour', kitchen_list_id: 1, category_id: 6)
 Ingredient.create(name: 'olive oil', kitchen_list_id: 1, category_id: 6)
 Ingredient.create(name: 'pizza', kitchen_list_id: 1, category_id: 7)
 
-Recipe.create(name: 'Apple Pie', description: 'Serve a la mode with ice cream!', user_id: 1)
+FavoriteRecipe.create(api_recipe_id: 649495, user_id: 1)
