@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     get 'recipes' => 'recipes#all'
     get 'recipe' => 'recipes#show'
     post 'ingredients' => 'recipes#ingredients_search'
+    get 'list' => 'list#show'
   end
 
 end
