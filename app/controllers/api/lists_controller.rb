@@ -7,7 +7,7 @@ module Api
       @list = @user.kitchen_list
       @ingredients = @user.kitchen_list.ingredients
 
-      render json: @ingredients
+      render json: @ingredients.as_json
     end
 
 
