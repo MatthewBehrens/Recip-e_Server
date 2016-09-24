@@ -1,7 +1,31 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+User.create(first_name: 'Matt', last_name: 'Baker', email: 'mattbaker@dbc.com', username: 'bakerROX')
+
+KitchenList.create(user_id: 1)
+
+Category.create(name: 'Dairy')
+Category.create(name: 'Produce')
+Category.create(name: 'Beverages')
+Category.create(name: 'Meat')
+Category.create(name: 'Bakery')
+Category.create(name: 'Pantry')
+Category.create(name: 'Frozen')
+
+Ingredient.create(name: 'skim milk', kitchen_list_id: 1, category_id: 1)
+Ingredient.create(name: 'whole milk', kitchen_list_id: 1, category_id: 1)
+Ingredient.create(name: 'apples', kitchen_list_id: 1, category_id: 2)
+Ingredient.create(name: 'broccoli', kitchen_list_id: 1, category_id: 2)
+Ingredient.create(name: 'oranges', kitchen_list_id: 1, category_id: 2)
+Ingredient.create(name: 'spinach', kitchen_list_id: 1, category_id: 2)
+Ingredient.create(name: 'tonic water', kitchen_list_id: 1, category_id: 3)
+Ingredient.create(name: 'gatorade', kitchen_list_id: 1, category_id: 3)
+Ingredient.create(name: 'ground beef', kitchen_list_id: 1, category_id: 4)
+Ingredient.create(name: 'chicken thighs', kitchen_list_id: 1, category_id: 4)
+Ingredient.create(name: 'pork loin', kitchen_list_id: 1, category_id: 4)
+Ingredient.create(name: 'bagels', kitchen_list_id: 1, category_id: 5)
+Ingredient.create(name: 'salt', kitchen_list_id: 1, category_id: 6)
+Ingredient.create(name: 'pepper', kitchen_list_id: 1, category_id: 6)
+Ingredient.create(name: 'flour', kitchen_list_id: 1, category_id: 6)
+Ingredient.create(name: 'olive oil', kitchen_list_id: 1, category_id: 6)
+Ingredient.create(name: 'pizza', kitchen_list_id: 1, category_id: 7)
+
+FavoriteRecipe.create(api_recipe_id: 649495, user_id: 1)
