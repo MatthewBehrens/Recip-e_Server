@@ -1,6 +1,7 @@
 require "application_responder"
 
 class ApplicationController < ActionController::Base
+  include DeviseTokenAuth::Concerns::SetUserByToken
   include ApplicationHelper
   self.responder = ApplicationResponder
   respond_to :html
