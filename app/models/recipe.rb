@@ -1,3 +1,3 @@
-class Recipe < ActiveRecord::Base
+class FavoriteRecipe < ActiveRecord::Base
   belongs_to :user
 end
