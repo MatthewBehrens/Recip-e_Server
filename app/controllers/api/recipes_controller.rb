@@ -1,7 +1,6 @@
 module Api
   class RecipesController < ApplicationController
     respond_to :json
-    require ApplicationHelper
 
     def ingredients_search
       #Clean up the incoming ingredients so that we can send a clean api request
