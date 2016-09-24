@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   namespace :api, constraints: { format: :json } do
     get 'recipes' => 'recipes#all'
     get 'recipe' => 'recipes#show'
-    post 'ingredients' => 'recipes#testpost'
+    post 'ingredients' => 'recipes#ingredients_search'
   end
 
 end

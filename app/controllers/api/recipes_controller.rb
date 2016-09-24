@@ -2,11 +2,9 @@ module Api
   class RecipesController < ApplicationController
     respond_to :json
 
-    def testpost
-      p params
+    def ingredients_search
       #Clean up the incoming ingredients so that we can send a clean api request
       #Downcase
-      p "These are the downcased ingredients"
       downcase_ingredients = params["ingredients"].map {|item| item.downcase}
       #Remove blanks, this validation should be done client side as well
       clean_ingredients_list = downcase_ingredients.reject { |c| c.empty? }
