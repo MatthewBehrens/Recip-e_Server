@@ -4,31 +4,30 @@ module Api
 
     def testpost
       p params
+      #Clean up the incoming ingredients so that we can send a clean api request
+      #Downcase
+      downcase_ingredients = params["ingredients"].map {|item| item.downcase}
+      #Remove blanks, this validation should be done client side as well
+      clean_ingredients_list = downcase_ingredients.reject { |c| c.empty? }
 
-      # Make sure to downcase
-      # ingredients_list = params["ingredients"]
-      # ingredients_list = ingredients_list.downcase
+      if clean_ingredients_list.empty?
+        response = {error: "No ingredients passed, please input ingredients"}
+      else
+         ingredients_list = clean_ingredients_list.join(" ")
+         if Rails.cache.read(ingredients_list)
+            response = Rails.cache.read(ingredients_list)
+         else
+            api = Spoonacular::API.new(ENV["SPOONACULAR_API_KEY"])
+            response = api.find_by_ingredients(ingredients_list)
+            Rails.cache.write(ingredients_list,response)
+         end
+      end
 
-      # if Rails.cache.read(ingredients_list)
-      #   response = Rails.cache.read(ingredients_list)
-      # else
-      #   # make the API Call
-      #   # response = api.find_by_ingredients(ingredients_list)
-      #   # Save response to the cache
-      #   # Rails.cache.write(ingredients_list,response)
-      # end
-
-      # p 'This is what the api instance looks like:::::::'
-      # response = api.find_by_ingredients('chicken tomatoes')
-
-      render json: {hello: "World"}
+      render json: response
     end
 
 
     def all
-
-      api = Spoonacular::API.new(ENV["SPOONACULAR_API_KEY"])
-
 
       render json: {body: [
                       {
@@ -84,4 +83,3 @@ module Api
     end
   end
 end
-
