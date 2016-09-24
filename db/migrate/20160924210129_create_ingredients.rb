@@ -3,7 +3,7 @@ class CreateIngredients < ActiveRecord::Migration[5.0]
     create_table :ingredients do |t|
       t.string :name, null: false
       t.integer :kitchen_list_id
-      t.integer :catgeory_id, null: false
+      t.integer :category_id, null: false
 
       t.timestamps
     end
