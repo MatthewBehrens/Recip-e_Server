@@ -18,8 +18,7 @@ module Api
          if Rails.cache.read(ingredients_list)
             response = Rails.cache.read(ingredients_list)
          else
-            api = Spoonacular::API.new(ENV["SPOONACULAR_API_KEY"])
-            response = api.find_by_ingredients(ingredients_list)
+            response = spoonacular_api.find_by_ingredients(ingredients_list)
             Rails.cache.write(ingredients_list,response)
          end
       end
