@@ -1,8 +1,14 @@
 module Api
   class RecipesController < ApplicationController
+    before_action :authenticate_api_user!
     respond_to :json
 
     def ingredients_search
+      # Check the token
+      p "This is the token info that we're getting from the client"
+      p client_id = request.headers['client']
+      p token = request.headers['access-token']
+
       #Clean up the incoming ingredients so that we can send a clean api request
       #Downcase
       downcase_ingredients = params["ingredients"].map {|item| item.downcase}
