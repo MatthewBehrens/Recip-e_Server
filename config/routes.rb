@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     post 'ingredients' => 'recipes#ingredients_search'
     get 'list' => 'lists#show'
     get 'users/:id/favorite_recipes' => 'recipes#favorites'
+    delete 'users/:id/favorite_recipes/:recipe_id' => 'recipes#remove_favorite'
   end
 
 end

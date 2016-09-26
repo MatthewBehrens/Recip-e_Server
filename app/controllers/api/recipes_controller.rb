@@ -3,6 +3,12 @@ module Api
     before_action :authenticate_api_user!
     respond_to :json
 
+    def remove_favorite
+      p params
+      recipe = FavoriteRecipes.where("user_id = ? AND api_recipe_id = ?", params["id"], params["recipe_id"])
+      p recipe
+    end
+
     def favorites
       favorite_recipes = User.find(params["id"]).favorite_recipes
       # Make an array containing all the api recipe ids.
