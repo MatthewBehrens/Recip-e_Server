@@ -8,16 +8,15 @@ module Api
       #Downcase
       downcase_ingredients = params["ingredients"].map {|item| item.downcase}
       #Remove blanks, this validation should be done client side as well
-      clean_ingredients_list = downcase_ingredients.reject { |c| c.empty? }
+      ingredients_list = downcase_ingredients.reject { |c| c.empty? }
 
-      if clean_ingredients_list.empty?
+      if ingredients_list.empty?
         response = {error: "No ingredients passed, please input ingredients"}
       else
-         ingredients_list = clean_ingredients_list.join(" ")
          if Rails.cache.read(ingredients_list)
             response = Rails.cache.read(ingredients_list)
          else
-            response = spoonacular_api.find_by_ingredients(ingredients_list)
+            response = spoonacular_api.find_by_ingredients(ingredients_list, "number=30&ranking=2")
             Rails.cache.write(ingredients_list,response)
          end
       end
