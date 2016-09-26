@@ -4,9 +4,9 @@ module Api
     respond_to :json
 
     def remove_favorite
-      p params
       recipe = FavoriteRecipe.where("user_id = ? AND api_recipe_id = ?", params["id"], params["recipe_id"])
-      recipe.destroy
+      FavoriteRecipe.destroy(recipe)
+      self.favorites
     end
 
     def favorites
