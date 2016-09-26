@@ -21,32 +21,30 @@ module Api
     def save
       orig_ingredients = current_api_user.ingredients
       new_ingredients = params[:list][:ingredients]
+      persisted = []
+
+      #Save new ingredients
       new_ingredients.each do |ingredient|
         if !ingredient.key?('id')
           Ingredient.create(name: ingredient[:name], kitchen_list_id: 1, category_id: 1)
         end
       end
 
-      not_deleted = []
-      still_there = []
-      deleted = []
-
+      #Pull out IDs of 'unpersisted' ingredients coming back from client
       new_ingredients.each do |ingred|
-        still_there << ingred[:id]
+        persisted << ingred[:id]
       end
 
+      #If ID isn't there then delete the persisted ingredient form original ingredients
       orig_ingredients.each do |orig|
-        if still_there.include?(orig.id)
-          not_deleted << orig
-        else
-          deleted << orig
+        if !persisted.include?(orig.id)
           orig.destroy
         end
       end
 
-#Refactor using reject method to make more DRY
+      #Could refactor using reject method to make more DRY
 
-      @ingredients = current_api_user.kitchen_list.ingredients
+      @ingredients = current_api_user.ingredients
       render json: @ingredients.as_json
     end
 
