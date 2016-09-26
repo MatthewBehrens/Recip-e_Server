@@ -6,10 +6,11 @@ module Api
     def ingredients_search
       #Clean up the incoming ingredients so that we can send a clean api request
       #Downcase
-      downcase_ingredients = params["ingredients"].map {|item| item.downcase}
-      #Remove blanks, this validation should be done client side as well
-      ingredients_list = downcase_ingredients.reject { |c| c.empty? }
 
+      # downcase_ingredients = params["ingredients"].map {|item| item.downcase}
+      #Remove blanks, this validation should be done client side as well
+      # ingredients_list = downcase_ingredients.reject { |c| c.empty? }
+      ingredients_list = ''
       if ingredients_list.empty?
         response = {error: "No ingredients passed, please input ingredients"}
       else
