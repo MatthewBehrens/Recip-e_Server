@@ -19,31 +19,34 @@ module Api
     end
 
     def save
-      orig_ingredients = current_api_user.kitchen_list.ingredients
+      orig_ingredients = current_api_user.ingredients
       new_ingredients = params[:list][:ingredients]
       new_ingredients.each do |ingredient|
         if !ingredient.key?('id')
           Ingredient.create(name: ingredient[:name], kitchen_list_id: 1, category_id: 1)
         end
-    end
-p '*******************'
-      p orig_ingredients
-      p '*******************'
-      p new_ingredients[0].class
-      p new_ingredients[0][:name]
+      end
+
+      not_deleted = []
       still_there = []
       deleted = []
 
-      # orig_ingredients.each do |old|
-      #   new_ingredients.each do |newest|
-      #    if old.name == newest[:name]
+      new_ingredients.each do |ingred|
+        still_there << ingred[:id]
+      end
 
-      #    end
-      # end
+      orig_ingredients.each do |orig|
+        if still_there.include?(orig.id)
+          not_deleted << orig
+        else
+          deleted << orig
+          orig.destroy
+        end
+      end
 
+#Refactor using reject method to make more DRY
 
-      @user = current_api_user
-      @ingredients = @user.kitchen_list.ingredients
+      @ingredients = current_api_user.kitchen_list.ingredients
       render json: @ingredients.as_json
     end
 
