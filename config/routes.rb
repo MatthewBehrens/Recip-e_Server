@@ -8,6 +8,9 @@ Rails.application.routes.draw do
     get 'recipe' => 'recipes#show'
     post 'ingredients' => 'recipes#ingredients_search'
     get 'list' => 'lists#show'
+    get 'pantry' => 'lists#show'
+    post 'pantry' => 'lists#save'
+
   end
 
 end
