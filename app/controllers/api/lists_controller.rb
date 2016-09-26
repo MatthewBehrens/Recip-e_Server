@@ -1,12 +1,12 @@
 module Api
   class ListsController < ApplicationController
+    before_action :authenticate_api_user!
     respond_to :json
 
     def show
-      @user = User.find(1)
-      @list = @user.kitchen_list
+      @user = current_api_user
       @ingredients = @user.kitchen_list.ingredients
-      @categories = Category.all
+
       render json: @ingredients.as_json
     end
 
@@ -19,13 +19,15 @@ module Api
     end
 
     def save
+      ingredients = current_api_user.kitchen_list.ingredients
       params[:list][:ingredients].each do |ingredient|
         if !ingredient.key?('id')
-          p true
           Ingredient.create(name: ingredient[:name], kitchen_list_id: 1, category_id: 1)
         end
+
+        if ingredient.
       end
-      @user = User.find(1)
+      @user = current_user
       @ingredients = @user.kitchen_list.ingredients
       render json: @ingredients.as_json
     end
