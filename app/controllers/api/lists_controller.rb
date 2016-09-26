@@ -5,8 +5,10 @@ module Api
 
     def show
       @user = current_api_user
+      if !@user.kitchen_list
+        KitchenList.new(user: @user)
+      end
       @ingredients = @user.kitchen_list.ingredients
-
       render json: @ingredients.as_json
     end
 
@@ -43,7 +45,6 @@ module Api
           persisted << ingredient[:id]
         end
       end
-      #Could refactor using reject method to make more DRY
 
       @ingredients = current_api_user.ingredients
       render json: @ingredients.as_json

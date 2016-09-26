@@ -27,4 +27,4 @@ Ingredient.create(name: 'flour', kitchen_list: mattslist, category: pantry)
 Ingredient.create(name: 'olive oil', kitchen_list: mattslist, category: pantry)
 Ingredient.create(name: 'pizza', kitchen_list: mattslist, category: frozen)
 
-FavoriteRecipe.create(api_recipe_id: 649495, user: matt)
+FavoriteRecipe.create(api_recipe_id: 22347, user: matt)
