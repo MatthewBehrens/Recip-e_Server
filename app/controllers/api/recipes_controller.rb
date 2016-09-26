@@ -3,6 +3,35 @@ module Api
     before_action :authenticate_api_user!
     respond_to :json
 
+    def remove_favorite
+      recipe = FavoriteRecipe.where("user_id = ? AND api_recipe_id = ?", params["id"], params["recipe_id"])
+      FavoriteRecipe.destroy(recipe)
+      self.favorites
+    end
+
+    def favorites
+      favorite_recipes = User.find(params["id"]).favorite_recipes
+      # Make an array containing all the api recipe ids.
+      list_of_ids = []
+      favorite_recipes.each do |recipe|
+        list_of_ids << recipe.api_recipe_id
+      end
+
+      if list_of_ids.empty?
+        response = ""
+      else
+        # construct an array of recipes to return as a json object.
+        array_of_recipes = []
+        p list_of_ids
+        list_of_ids.each do |api_id|
+          array_of_recipes << spoonacular_api.get_product_information(api_id)
+        end
+        response = array_of_recipes
+      end
+
+      render json: response
+    end
+
     def ingredients_search
       #Clean up the incoming ingredients so that we can send a clean api request
       #Downcase
