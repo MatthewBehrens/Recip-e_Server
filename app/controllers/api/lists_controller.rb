@@ -25,6 +25,9 @@ module Api
           Ingredient.create(name: ingredient[:name], kitchen_list_id: 1, category_id: 1)
         end
       end
+      @user = User.find(1)
+      @ingredients = @user.kitchen_list.ingredients
+      render json: @ingredients.as_json
     end
 
 
