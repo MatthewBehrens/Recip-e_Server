@@ -24,6 +24,7 @@ module Api
         if !ingredient.key?('id')
           Ingredient.create(name: ingredient[:name], kitchen_list_id: 1, category_id: 1)
         end
+      end
       @user = current_user
       @ingredients = @user.kitchen_list.ingredients
       render json: @ingredients.as_json
