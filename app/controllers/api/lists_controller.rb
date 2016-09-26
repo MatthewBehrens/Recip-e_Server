@@ -5,8 +5,10 @@ module Api
 
     def show
       @user = current_api_user
+      if !@user.kitchen_list
+        KitchenList.new(user: @user)
+      end
       @ingredients = @user.kitchen_list.ingredients
-
       render json: @ingredients.as_json
     end
 
