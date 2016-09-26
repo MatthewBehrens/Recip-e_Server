@@ -15,6 +15,8 @@ require "sprockets/railtie"
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
+Dotenv::Railtie.load
+HOSTNAME = ENV['HOSTNAME']
 
 module RecipeEServer
   class Application < Rails::Application
@@ -28,7 +30,10 @@ module RecipeEServer
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'
-        resource '*', :headers => :any, :methods => [:get, :post, :options]
+        resource '*',
+          :headers => :any,
+          :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client'],
+          :methods => [:get, :post, :options, :delete, :put]
       end
     end
   end

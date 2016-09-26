@@ -1,7 +1,30 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+matt = User.create(name:"Matt Baker", email: 'mattbaker@dbc.com', password: "password", password_confirmation: "password")
+
+mattslist = KitchenList.create(user: matt)
+
+dairy = Category.create(name: 'Dairy')
+produce = Category.create(name: 'Produce')
+beverages = Category.create(name: 'Beverages')
+meat = Category.create(name: 'Meat')
+bakery = Category.create(name: 'Bakery')
+pantry = Category.create(name: 'Pantry')
+frozen = Category.create(name: 'Frozen')
+
+Ingredient.create(name: 'skim milk', kitchen_list: mattslist, category: dairy)
+Ingredient.create(name: 'whole milk', kitchen_list: mattslist, category: dairy)
+Ingredient.create(name: 'apples', kitchen_list: mattslist, category: produce)
+Ingredient.create(name: 'broccoli', kitchen_list: mattslist, category: produce)
+Ingredient.create(name: 'oranges', kitchen_list: mattslist, category: produce)
+Ingredient.create(name: 'spinach', kitchen_list: mattslist, category: produce)
+Ingredient.create(name: 'tonic water', kitchen_list: mattslist, category: beverages)
+Ingredient.create(name: 'ground beef', kitchen_list: mattslist, category: meat)
+Ingredient.create(name: 'chicken thighs', kitchen_list: mattslist, category: meat)
+Ingredient.create(name: 'pork loin', kitchen_list: mattslist, category: meat)
+Ingredient.create(name: 'bagels', kitchen_list: mattslist, category: bakery)
+Ingredient.create(name: 'salt', kitchen_list: mattslist, category: pantry)
+Ingredient.create(name: 'pepper', kitchen_list: mattslist, category: pantry)
+Ingredient.create(name: 'flour', kitchen_list: mattslist, category: pantry)
+Ingredient.create(name: 'olive oil', kitchen_list: mattslist, category: pantry)
+Ingredient.create(name: 'pizza', kitchen_list: mattslist, category: frozen)
+
+FavoriteRecipe.create(api_recipe_id: 649495, user: matt)
