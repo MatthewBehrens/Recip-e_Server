@@ -19,19 +19,12 @@ module Api
     end
 
     def save
+      params_ingredients = params[:list][:ingredients]
       orig_ingredients = current_api_user.ingredients
-      new_ingredients = params[:list][:ingredients]
       persisted = []
 
-      #Save new ingredients
-      new_ingredients.each do |ingredient|
-        if !ingredient.key?('id')
-          Ingredient.create(name: ingredient[:name], kitchen_list_id: 1, category_id: 1)
-        end
-      end
-
       #Pull out IDs of 'unpersisted' ingredients coming back from client
-      new_ingredients.each do |ingred|
+      params_ingredients.each do |ingred|
         persisted << ingred[:id]
       end
 
@@ -42,6 +35,14 @@ module Api
         end
       end
 
+      #Save new ingredients
+      params_ingredients.each do |ingredient|
+        if !ingredient.key?('id')
+          Ingredient.create(name: ingredient[:name], kitchen_list_id: 1, category_id: 1)
+        else
+          persisted << ingredient[:id]
+        end
+      end
       #Could refactor using reject method to make more DRY
 
       @ingredients = current_api_user.ingredients
