@@ -21,26 +21,26 @@ module Api
     end
 
     def save
-      params_ingredients = params[:list][:ingredients]
-      orig_ingredients = current_api_user.ingredients
+      client_ingredients = params[:list][:ingredients]
+      server_ingredients = current_api_user.ingredients
       persisted = []
 
       #Pull out IDs of 'unpersisted' ingredients coming back from client
-      params_ingredients.each do |ingred|
+      client_ingredients.each do |ingred|
         persisted << ingred[:id]
       end
 
       #If ID isn't there then delete the persisted ingredient form original ingredients
-      orig_ingredients.each do |orig|
+      server_ingredients.each do |orig|
         if !persisted.include?(orig.id)
           orig.destroy
         end
       end
 
       #Save new ingredients
-      params_ingredients.each do |ingredient|
+      client_ingredients.each do |ingredient|
         if !ingredient.key?('id')
-          Ingredient.create(name: ingredient[:name], kitchen_list_id: 1, category_id: 1)
+          Ingredient.create(name: ingredient[:name], kitchen_list_id: current_api_user.kitchen_list_id, category_id: 1)
         else
           persisted << ingredient[:id]
         end
