@@ -4,13 +4,13 @@ module Api
     respond_to :json
 
     def remove_favorite
-      recipe = FavoriteRecipe.where("user_id = ? AND api_recipe_id = ?", params["id"], params["recipe_id"])
+      recipe = FavoriteRecipe.where("user_id = ? AND api_recipe_id = ?", current_api_user, params["recipe_id"])
       FavoriteRecipe.destroy(recipe)
       self.favorites
     end
 
     def favorites
-      favorite_recipes = User.find(params["id"]).favorite_recipes
+      favorite_recipes = User.find(current_api_user).favorite_recipes
       # Make an array containing all the api recipe ids.
       list_of_ids = []
       favorite_recipes.each do |recipe|
@@ -35,10 +35,13 @@ module Api
     def ingredients_search
       #Clean up the incoming ingredients so that we can send a clean api request
       #Downcase
-      downcase_ingredients = params["ingredients"].map {|item| item.downcase}
+
+      p params["ingredients"]
+
+      downcase_ingredients = params["ingredients"].map {|ingred_obj| ingred_obj.downcase}
       #Remove blanks, this validation should be done client side as well
       ingredients_list = downcase_ingredients.reject { |c| c.empty? }
-
+      
       if ingredients_list.empty?
         response = {error: "No ingredients passed, please input ingredients"}
       else
