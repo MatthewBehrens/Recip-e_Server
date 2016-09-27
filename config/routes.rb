@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     delete 'favorite_recipes/:recipe_id' => 'recipes#remove_favorite'
     get 'pantry' => 'lists#show'
     post 'pantry' => 'lists#save'
+    post 'instructions' => 'recipes#instructions'
 
   end
 
