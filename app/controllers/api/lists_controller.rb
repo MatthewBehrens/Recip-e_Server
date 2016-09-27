@@ -47,7 +47,6 @@ module Api
           persisted << ingredient[:id]
         end
       end
-
       @ingredients = current_api_user.ingredients
       render json: @ingredients.as_json
     end
