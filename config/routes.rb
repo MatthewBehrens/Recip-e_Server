@@ -8,8 +8,8 @@ Rails.application.routes.draw do
     post 'recipe' => 'recipes#show'
     post 'ingredients' => 'recipes#ingredients_search'
     get 'list' => 'lists#show'
-    get 'users/:id/favorite_recipes' => 'recipes#favorites'
-    delete 'users/:id/favorite_recipes/:recipe_id' => 'recipes#remove_favorite'
+    get 'favorite_recipes' => 'recipes#favorites'
+    delete 'favorite_recipes/:recipe_id' => 'recipes#remove_favorite'
     get 'pantry' => 'lists#show'
     post 'pantry' => 'lists#save'
 

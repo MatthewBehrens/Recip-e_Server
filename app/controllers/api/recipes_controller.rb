@@ -4,13 +4,13 @@ module Api
     respond_to :json
 
     def remove_favorite
-      recipe = FavoriteRecipe.where("user_id = ? AND api_recipe_id = ?", params["id"], params["recipe_id"])
+      recipe = FavoriteRecipe.where("user_id = ? AND api_recipe_id = ?", current_api_user, params["recipe_id"])
       FavoriteRecipe.destroy(recipe)
       self.favorites
     end
 
     def favorites
-      favorite_recipes = User.find(params["id"]).favorite_recipes
+      favorite_recipes = User.find(current_api_user).favorite_recipes
       # Make an array containing all the api recipe ids.
       list_of_ids = []
       favorite_recipes.each do |recipe|
