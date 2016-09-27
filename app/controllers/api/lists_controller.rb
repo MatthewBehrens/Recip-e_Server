@@ -27,10 +27,10 @@ module Api
       params[:ingredients].each do |passed_ingredient|
         # p "#{passed_ingredient["name"]}:  #{saved_ingredients.any? {|h| h["name"] == passed_ingredient["name"]}}"
         if !passed_ingredient.key?('id')
-          Ingredient.create(name: passed_ingredient[:name], kitchen_list_id: 1, category_id: 1)
+          Ingredient.create(name: passed_ingredient[:name], kitchen_list: kitchen_list, category_id: 1)
         end
       end
-      @user = current_user
+      @user = current_api_user
       @ingredients = @user.kitchen_list.ingredients
       render json: @ingredients.as_json
     end
