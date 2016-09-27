@@ -21,10 +21,13 @@ module Api
     end
 
     def save
-      ingredients = current_api_user.kitchen_list.ingredients
-      params[:list][:ingredients].each do |ingredient|
-        if !ingredient.key?('id')
-          Ingredient.create(name: ingredient[:name], kitchen_list_id: 1, category_id: 1)
+      # p "Entered the save route"
+      # p "--------------------------------------------------"
+      saved_ingredients = current_api_user.kitchen_list.ingredients
+      params[:ingredients].each do |passed_ingredient|
+        # p "#{passed_ingredient["name"]}:  #{saved_ingredients.any? {|h| h["name"] == passed_ingredient["name"]}}"
+        if !passed_ingredient.key?('id')
+          Ingredient.create(name: passed_ingredient[:name], kitchen_list_id: 1, category_id: 1)
         end
       end
       @user = current_user
