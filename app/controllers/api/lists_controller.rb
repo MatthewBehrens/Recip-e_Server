@@ -5,7 +5,7 @@ module Api
 
     def show
       @user = current_api_user
-  
+
       if !@user.kitchen_list
         list = KitchenList.new(user: @user)
         list.save
@@ -26,7 +26,6 @@ module Api
       client_ingredients = params[:list][:ingredients]
       server_ingredients = current_api_user.ingredients
       persisted = []
-
 
       #Pull out IDs of 'unpersisted' ingredients coming back from client
       client_ingredients.each do |ingred|
