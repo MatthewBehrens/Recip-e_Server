@@ -4,13 +4,13 @@ module Api
     respond_to :json
 
     def remove_favorite
-      recipe = FavoriteRecipe.where("user_id = ? AND api_recipe_id = ?", params["id"], params["recipe_id"])
+      recipe = FavoriteRecipe.where("user_id = ? AND api_recipe_id = ?", current_api_user, params["recipe_id"])
       FavoriteRecipe.destroy(recipe)
       self.favorites
     end
 
     def favorites
-      favorite_recipes = User.find(params["id"]).favorite_recipes
+      favorite_recipes = User.find(current_api_user).favorite_recipes
       # Make an array containing all the api recipe ids.
       list_of_ids = []
       favorite_recipes.each do |recipe|
@@ -35,10 +35,13 @@ module Api
     def ingredients_search
       #Clean up the incoming ingredients so that we can send a clean api request
       #Downcase
-      downcase_ingredients = params["ingredients"].map {|item| item.downcase}
+
+      p params["ingredients"]
+
+      downcase_ingredients = params["ingredients"].map {|ingred_obj| ingred_obj.downcase}
       #Remove blanks, this validation should be done client side as well
       ingredients_list = downcase_ingredients.reject { |c| c.empty? }
-
+      
       if ingredients_list.empty?
         response = {error: "No ingredients passed, please input ingredients"}
       else
@@ -53,58 +56,6 @@ module Api
       render json: response
     end
 
-
-    def all
-
-      render json: {body: [
-                      {
-                      id: 649495,
-                      title: "Lemon and Garlic Slow Roasted Chicken",
-                      image: "https://spoonacular.com/recipeImages/Lemon-and-Garlic-Slow-Roasted-Chicken-649495.jpg",
-                      imageType: "jpg",
-                      usedIngredientCount: 1,
-                      missedIngredientCount: 2,
-                      likes: 1
-                      },
-                      {
-                      id: 640803,
-                      title: "Crispy Buttermilk Fried Chicken",
-                      image: "https://spoonacular.com/recipeImages/Crispy-Buttermilk-Fried-Chicken-640803.jpg",
-                      imageType: "jpg",
-                      usedIngredientCount: 1,
-                      missedIngredientCount: 2,
-                      likes: 53
-                      },
-                      {
-                      id: 634485,
-                      title: "Bbq Chicken Pizza",
-                      image: "https://spoonacular.com/recipeImages/Bbq-Chicken-Pizza-634485.jpg",
-                      imageType: "jpg",
-                      usedIngredientCount: 1,
-                      missedIngredientCount: 2,
-                      likes: 1
-                      },
-                      {
-                      id: 715525,
-                      title: "Slow Cooker Rosemary Whole Chicken",
-                      image: "https://spoonacular.com/recipeImages/slow-cooker-rosemary-whole-chicken-715525.jpg",
-                      imageType: "jpg",
-                      usedIngredientCount: 1,
-                      missedIngredientCount: 3,
-                      likes: 991
-                      },
-                      {
-                      id: 634463,
-                      title: "Batter Fried Chicken",
-                      image: "https://spoonacular.com/recipeImages/Batter-Fried-Chicken-634463.jpg",
-                      imageType: "jpg",
-                      usedIngredientCount: 1,
-                      missedIngredientCount: 3,
-                      likes: 8
-                      }
-                      ]}
-    end
-
     def show
       recipe_id = params["id"]
       if (recipe_id == nil)
@@ -117,6 +68,17 @@ module Api
             Rails.cache.write(recipe_id,response)
          end
       end
+      render json: response
+    end
+
+    def instructions
+      id = params["id"]
+      response = Unirest.get "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/#{id}/analyzedInstructions",
+      headers:
+      {
+        "X-Mashape-Key" => ENV["SPOONACULAR_API_KEY"],
+        "Accept" => "application/json"
+      }
       render json: response
     end
   end
