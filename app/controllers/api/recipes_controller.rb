@@ -70,5 +70,16 @@ module Api
       end
       render json: response
     end
+
+    def instructions
+      id = params["id"]
+      response = Unirest.get "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/#{id}/analyzedInstructions",
+      headers:
+      {
+        "X-Mashape-Key" => ENV["SPOONACULAR_API_KEY"],
+        "Accept" => "application/json"
+      }
+      render json: response
+    end
   end
 end
