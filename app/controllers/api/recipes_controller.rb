@@ -36,10 +36,12 @@ module Api
       #Clean up the incoming ingredients so that we can send a clean api request
       #Downcase
 
+      p params["ingredients"]
+
       downcase_ingredients = params["ingredients"].map {|ingred_obj| ingred_obj.downcase}
       #Remove blanks, this validation should be done client side as well
       ingredients_list = downcase_ingredients.reject { |c| c.empty? }
-      ingredients_list = ''
+      
       if ingredients_list.empty?
         response = {error: "No ingredients passed, please input ingredients"}
       else
@@ -52,58 +54,6 @@ module Api
       end
 
       render json: response
-    end
-
-
-    def all
-
-      render json: {body: [
-                      {
-                      id: 649495,
-                      title: "Lemon and Garlic Slow Roasted Chicken",
-                      image: "https://spoonacular.com/recipeImages/Lemon-and-Garlic-Slow-Roasted-Chicken-649495.jpg",
-                      imageType: "jpg",
-                      usedIngredientCount: 1,
-                      missedIngredientCount: 2,
-                      likes: 1
-                      },
-                      {
-                      id: 640803,
-                      title: "Crispy Buttermilk Fried Chicken",
-                      image: "https://spoonacular.com/recipeImages/Crispy-Buttermilk-Fried-Chicken-640803.jpg",
-                      imageType: "jpg",
-                      usedIngredientCount: 1,
-                      missedIngredientCount: 2,
-                      likes: 53
-                      },
-                      {
-                      id: 634485,
-                      title: "Bbq Chicken Pizza",
-                      image: "https://spoonacular.com/recipeImages/Bbq-Chicken-Pizza-634485.jpg",
-                      imageType: "jpg",
-                      usedIngredientCount: 1,
-                      missedIngredientCount: 2,
-                      likes: 1
-                      },
-                      {
-                      id: 715525,
-                      title: "Slow Cooker Rosemary Whole Chicken",
-                      image: "https://spoonacular.com/recipeImages/slow-cooker-rosemary-whole-chicken-715525.jpg",
-                      imageType: "jpg",
-                      usedIngredientCount: 1,
-                      missedIngredientCount: 3,
-                      likes: 991
-                      },
-                      {
-                      id: 634463,
-                      title: "Batter Fried Chicken",
-                      image: "https://spoonacular.com/recipeImages/Batter-Fried-Chicken-634463.jpg",
-                      imageType: "jpg",
-                      usedIngredientCount: 1,
-                      missedIngredientCount: 3,
-                      likes: 8
-                      }
-                      ]}
     end
 
     def show
