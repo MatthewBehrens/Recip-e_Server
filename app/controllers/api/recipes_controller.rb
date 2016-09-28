@@ -5,7 +5,11 @@ module Api
 
     def add_favorite
       new_fav = FavoriteRecipe.new(user: current_api_user, api_recipe_id: params[:recipe_id])
-      new_fav.save
+      if new_fav.save
+        "Record Saved!"
+      else
+        new_fav.errors.full_messages
+      end
     end
 
     def remove_favorite
