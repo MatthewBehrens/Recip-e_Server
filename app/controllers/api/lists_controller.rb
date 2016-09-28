@@ -6,8 +6,8 @@ module Api
     def show
 
 
-      if !@user.kitchen_list
-        list = KitchenList.new(user: @user)
+      if !current_api_user.kitchen_list
+        list = KitchenList.new(user: current_api_user)
         list.save
       end
       dairy = Category.find_by(name: 'Dairy')
