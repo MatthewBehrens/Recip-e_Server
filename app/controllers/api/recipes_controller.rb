@@ -3,6 +3,11 @@ module Api
     before_action :authenticate_api_user!
     respond_to :json
 
+    def add_favorite
+      new_fav = FavoriteRecipe.new(user: current_api_user, api_recipe_id: params[:recipe_id])
+      new_fav.save
+    end
+
     def remove_favorite
       recipe = FavoriteRecipe.where("user_id = ? AND api_recipe_id = ?", current_api_user, params["recipe_id"])
       FavoriteRecipe.destroy(recipe)
@@ -41,7 +46,7 @@ module Api
       downcase_ingredients = params["ingredients"].map {|ingred_obj| ingred_obj.downcase}
       #Remove blanks, this validation should be done client side as well
       ingredients_list = downcase_ingredients.reject { |c| c.empty? }
-      
+
       if ingredients_list.empty?
         response = {error: "No ingredients passed, please input ingredients"}
       else
