@@ -45,8 +45,6 @@ module Api
       #Clean up the incoming ingredients so that we can send a clean api request
       #Downcase
 
-      p params["ingredients"]
-
       downcase_ingredients = params["ingredients"].map {|ingred_obj| ingred_obj.downcase}
       #Remove blanks, this validation should be done client side as well
       ingredients_list = downcase_ingredients.reject { |c| c.empty? }
