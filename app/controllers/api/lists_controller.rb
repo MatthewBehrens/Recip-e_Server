@@ -4,13 +4,24 @@ module Api
     respond_to :json
 
     def show
-      @user = current_api_user
+
 
       if !@user.kitchen_list
         list = KitchenList.new(user: @user)
         list.save
       end
-      @ingredients = @user.kitchen_list.ingredients
+      dairy = Category.find_by(name: 'Dairy')
+      produce = Category.find_by(name: 'Produce')
+      beverages = Category.find_by(name: 'Beverages')
+      meat = Category.find_by(name: 'Meat')
+      bakery = Category.find_by(name: 'Bakery')
+      pantry = Category.find_by(name: 'Pantry')
+      frozen = Category.find_by(name: 'Frozen')
+
+
+
+
+      @ingredients = current_api_user.ingredients
       render json: @ingredients.as_json
     end
 
