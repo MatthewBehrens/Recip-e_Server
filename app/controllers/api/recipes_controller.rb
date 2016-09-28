@@ -29,7 +29,7 @@ module Api
         array_of_recipes = []
         p list_of_ids
         list_of_ids.each do |api_id|
-          array_of_recipes << spoonacular_api.get_product_information(api_id)
+          array_of_recipes << spoonacular_api.get_recipe_information(api_id)
         end
         response = array_of_recipes
       end
