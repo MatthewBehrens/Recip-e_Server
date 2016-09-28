@@ -4,9 +4,24 @@ module Api
     respond_to :json
 
     def show
-      @user = current_api_user
-      @ingredients = @user.kitchen_list.ingredients
 
+
+      if !current_api_user.kitchen_list
+        list = KitchenList.new(user: current_api_user)
+        list.save
+      end
+      dairy = Category.find_by(name: 'Dairy')
+      produce = Category.find_by(name: 'Produce')
+      beverages = Category.find_by(name: 'Beverages')
+      meat = Category.find_by(name: 'Meat')
+      bakery = Category.find_by(name: 'Bakery')
+      pantry = Category.find_by(name: 'Pantry')
+      frozen = Category.find_by(name: 'Frozen')
+
+
+
+
+      @ingredients = current_api_user.ingredients
       render json: @ingredients.as_json
     end
 
@@ -19,16 +34,35 @@ module Api
     end
 
     def save
-      ingredients = current_api_user.kitchen_list.ingredients
-      params[:list][:ingredients].each do |ingredient|
-        if !ingredient.key?('id')
-          Ingredient.create(name: ingredient[:name], kitchen_list_id: 1, category_id: 1)
+      client_ingredients = params[:list][:ingredients]
+      server_ingredients = current_api_user.ingredients
+      persisted = []
+
+      #Pull out IDs of 'unpersisted' ingredients coming back from client
+      client_ingredients.each do |ingred|
+        persisted << ingred[:id]
+      end
+
+      #If ID isn't there then delete the persisted ingredient form original ingredients
+      server_ingredients.each do |orig|
+        if !persisted.include?(orig.id)
+          orig.destroy
         end
-      @user = current_user
-      @ingredients = @user.kitchen_list.ingredients
+      end
+
+
+      #Save new ingredients
+      client_ingredients.each do |ingredient|
+        if !ingredient.key?('id')
+          Ingredient.create(name: ingredient[:name], kitchen_list: current_api_user.kitchen_list, category_id: 1)
+        # elsif ingredient.key('category')
+        else
+          persisted << ingredient[:id]
+        end
+      end
+      @ingredients = current_api_user.ingredients
       render json: @ingredients.as_json
     end
-
 
   end
 end
