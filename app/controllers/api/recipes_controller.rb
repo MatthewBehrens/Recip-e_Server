@@ -75,8 +75,10 @@ module Api
             Rails.cache.write(recipe_id,response)
          end
       end
-      response[:favorited] = recipe_is_favorited?(recipe_id)
-      render json: response
+      # response[:favorited] = recipe_is_favorited?(recipe_id)
+      test_json = json: response
+      p test_json
+      render test_json
     end
 
     def instructions
