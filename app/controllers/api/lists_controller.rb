@@ -53,7 +53,8 @@ module Api
       #Save new ingredients
       client_ingredients.each do |ingredient|
         if !ingredient.key?('id')
-          Ingredient.create(name: ingredient[:name], kitchen_list: current_api_user.kitchen_list, category_id: 1)
+          Ingredient.create(name: ingredient[:name], kitchen_list: current_api_user.kitchen_list, category_id: ingredient[:category_id].to_i)
+        # elsif ingredient.key('category')
         else
           persisted << ingredient[:id]
         end
