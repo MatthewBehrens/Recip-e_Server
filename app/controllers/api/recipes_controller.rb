@@ -9,9 +9,6 @@ module Api
     end
 
     def remove_favorite
-      p "/////////////////////////////////////////////////////////////"
-      p "HELLO THERE!"
-      p "/////////////////////////////////////////////////////////////"
       recipe = FavoriteRecipe.where("user_id = ? AND api_recipe_id = ?", current_api_user.id, params["recipe_id"])
       FavoriteRecipe.destroy(recipe)
       self.favorites
