@@ -5,7 +5,6 @@ module Api
 
     def show
 
-
       if !current_api_user.kitchen_list
         list = KitchenList.new(user: current_api_user)
         list.save
@@ -18,19 +17,8 @@ module Api
       pantry = Category.find_by(name: 'Pantry')
       frozen = Category.find_by(name: 'Frozen')
 
-
-
-
       @ingredients = current_api_user.ingredients
       render json: @ingredients.as_json
-    end
-
-    def add
-
-    end
-
-    def remove
-
     end
 
     def save
@@ -50,11 +38,10 @@ module Api
         end
       end
 
-
       #Save new ingredients
       client_ingredients.each do |ingredient|
         if !ingredient.key?('id')
-          Ingredient.create(name: ingredient[:name], kitchen_list_id: current_api_user.kitchen_list, category_id: ingredient[:category_id].to_i)
+          Ingredient.create(name: ingredient[:name], kitchen_list: current_api_user.kitchen_list, category_id: ingredient[:category_id])
         end
       end
       @user = current_api_user
