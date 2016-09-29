@@ -76,9 +76,14 @@ module Api
          end
       end
       # response[:favorited] = recipe_is_favorited?(recipe_id)
-      test_json = json: response
-      p test_json
-      render test_json
+      p"============================"
+      p FavoriteRecipe.recipe_is_favorited?(recipe_id, current_api_user)
+      p"============================"
+      response.headers[:favorited] = FavoriteRecipe.recipe_is_favorited?(recipe_id, current_api_user)
+      p response.headers
+      p"============================"
+
+      render json: response
     end
 
     def instructions

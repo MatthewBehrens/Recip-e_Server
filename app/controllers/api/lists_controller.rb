@@ -5,7 +5,6 @@ module Api
 
     def show
 
-
       if !current_api_user.kitchen_list
         list = KitchenList.new(user: current_api_user)
         list.save
@@ -18,19 +17,14 @@ module Api
       pantry = Category.find_by(name: 'Pantry')
       frozen = Category.find_by(name: 'Frozen')
 
-
-
-
       @ingredients = current_api_user.ingredients
       render json: @ingredients.as_json
     end
 
     def add
-
     end
 
     def remove
-
     end
 
     def save
