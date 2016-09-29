@@ -48,13 +48,11 @@ module Api
       #Save new ingredients
       client_ingredients.each do |ingredient|
         if !ingredient.key?('id')
-          Ingredient.create(name: ingredient[:name], kitchen_list: current_api_user.kitchen_list, category_id: 1)
-        # elsif ingredient.key('category')
-        else
-          persisted << ingredient[:id]
+          Ingredient.create(name: ingredient[:name], kitchen_list_id: current_api_user.kitchen_list, category_id: ingredient[:category_id].to_i)
         end
       end
-      @ingredients = current_api_user.ingredients
+      @user = current_api_user
+      @ingredients = @user.kitchen_list.ingredients
       render json: @ingredients.as_json
     end
 
