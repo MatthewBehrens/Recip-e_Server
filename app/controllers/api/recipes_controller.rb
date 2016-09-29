@@ -14,7 +14,7 @@ module Api
 
     def remove_favorite
       recipe = FavoriteRecipe.where("user_id = ? AND api_recipe_id = ?", current_api_user.id, params["recipe_id"])
-      FavoriteRecipe.destroy(recipe)
+      FavoriteRecipe.destroy_all(recipe)
       self.favorites
     end
 
@@ -31,7 +31,6 @@ module Api
       else
         # construct an array of recipes to return as a json object.
         array_of_recipes = []
-        p list_of_ids
         list_of_ids.each do |api_id|
           array_of_recipes << spoonacular_api.get_recipe_information(api_id)
         end
@@ -72,7 +71,7 @@ module Api
             response = Rails.cache.read(recipe_id)
          else
             response = spoonacular_api.get_recipe_information(recipe_id)
-            Rails.cache.write(recipe_id,response)
+            Rails.cache.write(recipe_id, response)
          end
 
       response.headers[:favorited] = FavoriteRecipe.recipe_is_favorited?(recipe_id, current_api_user)

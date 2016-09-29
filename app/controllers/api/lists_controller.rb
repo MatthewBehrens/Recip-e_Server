@@ -17,8 +17,14 @@ module Api
       pantry = Category.find_by(name: 'Pantry')
       frozen = Category.find_by(name: 'Frozen')
 
-      @ingredients = current_api_user.ingredients
+      @ingredients = current_api_user.ingredients.order(:category_id)
       render json: @ingredients.as_json
+    end
+
+    def add
+    end
+
+    def remove
     end
 
     def save
