@@ -74,14 +74,9 @@ module Api
             response = spoonacular_api.get_recipe_information(recipe_id)
             Rails.cache.write(recipe_id,response)
          end
+
+         response.headers[:favorited] = FavoriteRecipe.recipe_is_favorited?(recipe_id, current_api_user)
       end
-      # response[:favorited] = recipe_is_favorited?(recipe_id)
-      p"============================"
-      p FavoriteRecipe.recipe_is_favorited?(recipe_id, current_api_user)
-      p"============================"
-      response.headers[:favorited] = FavoriteRecipe.recipe_is_favorited?(recipe_id, current_api_user)
-      p response.headers
-      p"============================"
 
       render json: response
     end
