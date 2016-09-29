@@ -75,7 +75,7 @@ module Api
             Rails.cache.write(recipe_id,response)
          end
 
-         response.headers[:favorited] = FavoriteRecipe.recipe_is_favorited?(recipe_id, current_api_user)
+      response.headers[:favorited] = FavoriteRecipe.recipe_is_favorited?(recipe_id, current_api_user)
       end
 
       render json: response
